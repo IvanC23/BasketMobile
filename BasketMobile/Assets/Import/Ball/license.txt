@@ -1,0 +1,11 @@
+Model Information:
+* title:	Basketball
+* source:	https://sketchfab.com/3d-models/basketball-e6bbe9563fff46d7a7cf53a9238d8c02
+* author:	vikas (https://sketchfab.com/vr7531)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Basketball" (https://sketchfab.com/3d-models/basketball-e6bbe9563fff46d7a7cf53a9238d8c02) by vikas (https://sketchfab.com/vr7531) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
