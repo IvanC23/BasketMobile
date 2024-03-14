@@ -8,8 +8,8 @@ public class BallThrower : MonoBehaviour
     [SerializeField] private Transform _cameraTransform;
     [SerializeField] private float _throwingDuration = 2f;
     [SerializeField] private float _throwingHeight = 1.2f;
+    [SerializeField] private float _rotationForce = 500f;
     [SerializeField] private CameraController _cameraController;
-
     private Rigidbody _basketballRigidbody;
     private Vector3 _basketBallThrowPosition;
     private float _throwingTimer = 0f;
@@ -18,6 +18,12 @@ public class BallThrower : MonoBehaviour
     void Start()
     {
         // Initialize the throw position and get the Rigidbody component
+        _basketball.LookAt(_cameraTransform);
+
+        Vector3 rotation = _basketball.rotation.eulerAngles;
+        rotation.x = 0;
+        _basketball.rotation = Quaternion.Euler(rotation);
+
         _basketBallThrowPosition = _basketball.position;
         _basketballRigidbody = _basketball.GetComponent<Rigidbody>();
     }
@@ -39,10 +45,6 @@ public class BallThrower : MonoBehaviour
         _basketball.position = Vector3.Lerp(_basketBallThrowPosition, _ringCenter.position, timePassed) +
                                 Vector3.up * _throwingHeight * Mathf.Sin(timePassed * Mathf.PI);
 
-        // Enable physics after a certain time
-        if (_throwingTimer >= 0.5f)
-            _basketballRigidbody.isKinematic = false;
-
         // Reset after throwing duration
         if (_throwingTimer >= _throwingDuration)
         {
@@ -59,6 +61,15 @@ public class BallThrower : MonoBehaviour
         _throwingTimer = 0f;
         _basketballRigidbody.isKinematic = true;
         _basketball.position = newBallPosition;
+
+        _basketball.LookAt(_cameraTransform);
+        Vector3 rotation = _basketball.rotation.eulerAngles;
+        rotation.x = 0;
+        _basketball.rotation = Quaternion.Euler(rotation);
+
+        _basketball.rotation = new Quaternion(0, _basketball.rotation.y, _basketball.rotation.z, _basketball.rotation.w);
+        _basketBallThrowPosition = _basketball.position;
+
     }
 
     // Trigger the ball throw
@@ -67,5 +78,8 @@ public class BallThrower : MonoBehaviour
         _ballThrown = true;
         // Trigger camera movement associated with ball throw
         _cameraController.ThrowBall();
+        _basketballRigidbody.isKinematic = false;
+        _basketballRigidbody.AddTorque(Vector3.right * _rotationForce);
+
     }
 }

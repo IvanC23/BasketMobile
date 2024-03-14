@@ -12,6 +12,10 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float _goRingDuration = 1.0f;
     [SerializeField] private float _waitingTime = 2f;
 
+    [SerializeField] private Transform _positionsParent;
+    private int _numberOfPositions;
+
+
     private Vector3 _cameraStartPosition;
     private Vector3 _cameraUpPosition;
     private Vector3 _cameraCloseRingPosition;
@@ -28,6 +32,9 @@ public class CameraController : MonoBehaviour
         _cameraStartPosition = _cameraTransform.position;
         _cameraUpPosition = _cameraTransform.position + Vector3.up * 1.5f;
         _cameraCloseRingPosition = _ringPosition.position;
+
+        _numberOfPositions = _positionsParent.childCount;
+
     }
 
     void FixedUpdate()
@@ -83,13 +90,19 @@ public class CameraController : MonoBehaviour
     }
 
     // Reset camera and related objects after the throw
-    private void SetUpCamera()
+    private void ResetCamera()
     {
         _goRingTimer = 0f;
         _goUpTimer = 0f;
         _throwingBall = false;
 
-        _cameraTransform.position = _cameraStartPosition;
+        _cameraTransform.position = _positionsParent.GetChild(Random.Range(0, _numberOfPositions)).position;
+        _cameraStartPosition = _cameraTransform.position;
+        _cameraUpPosition = _cameraTransform.position + Vector3.up * 1.5f;
+
+        
+        _cameraTransform.LookAt(_ringPosition);
+        _cameraTransform.rotation = Quaternion.Euler(0, _cameraTransform.rotation.eulerAngles.y, 0);
 
         // Reset ball position and slider
         _ballThrower.ResetBall(_cameraTransform.position - Vector3.up * 0.6f + _cameraTransform.forward * 1.3f);
@@ -102,6 +115,6 @@ public class CameraController : MonoBehaviour
     private IEnumerator FinishThrow()
     {
         yield return new WaitForSeconds(_waitingTime);
-        SetUpCamera();
+        ResetCamera();
     }
 }
