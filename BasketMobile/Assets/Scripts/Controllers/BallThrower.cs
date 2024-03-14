@@ -9,8 +9,8 @@ public class BallThrower : MonoBehaviour
     [SerializeField] private Transform _cameraTransform;
     [SerializeField] private float _throwingDuration = 2f;
     [SerializeField] private float _throwingHeight = 1.2f;
-    [SerializeField] private float _waitingTime = 2f;
-    [SerializeField] private SliderController _sliderController;
+    [SerializeField] private CameraController _cameraController;
+
     private Rigidbody _basketballRigidbody;
     private Vector3 _basketBallThrowPosition;
     private float _throwingTimer = 0f;
@@ -24,32 +24,35 @@ public class BallThrower : MonoBehaviour
     {
         if (_ballThrowed)
         {
-            _throwingTimer += Time.deltaTime;
+            _throwingTimer += Time.fixedDeltaTime;
             float timePassed = _throwingTimer / _throwingDuration;
 
             _basketball.position = Vector3.Lerp(_basketBallThrowPosition, _ringCenter.position, timePassed) + Vector3.up * _throwingHeight * Mathf.Sin(timePassed * Mathf.PI);
 
+            if (_throwingTimer >= 0.5)
+            {
+                _basketballRigidbody.isKinematic = false;
+            }
+
             if (_throwingTimer >= _throwingDuration)
             {
                 _ballThrowed = false;
-                _basketballRigidbody.isKinematic = false;
-                StartCoroutine(WaitAfterApex());
+                //_basketballRigidbody.AddForce(Vector3.down,ForceMode.Impulse);
+                //StartCoroutine(WaitAfterApex());
             }
         }
     }
 
-    private IEnumerator WaitAfterApex()
+    public void ResetBall(Vector3 newBallPosition)
     {
-        yield return new WaitForSeconds(_waitingTime);
         _throwingTimer = 0f;
         _basketballRigidbody.isKinematic = true;
-
-        _basketball.position = _basketBallThrowPosition;
-        _sliderController.ResetSlider();
+        _basketball.position = newBallPosition;
     }
 
     public void ThrowBall()
     {
         _ballThrowed = true;
+        _cameraController.ThrowBall();
     }
 }

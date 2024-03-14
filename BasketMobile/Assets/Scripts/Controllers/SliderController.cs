@@ -15,16 +15,27 @@ public class SliderController : MonoBehaviour
     private Vector2 _lastTouchPosition;
     private bool _touchingScreen = false;
     private float _timeSinceTouching = 0f;
-    //private bool _ballThrowed = false;
+    private bool _touchEnabled = true;
+    private bool _firstTouchDone = false;
 
     void Update()
     {
+        if (_touchEnabled)
+        {
+            HandleTouch();
+        }
+
+    }
+
+    void HandleTouch()
+    {
         if (Input.GetMouseButtonDown(0))
         {
+            _firstTouchDone = true;
             _lastTouchPosition = Input.mousePosition;
             _fillArea.SetActive(true);
         }
-        else if (Input.GetMouseButton(0))
+        else if (Input.GetMouseButton(0) && _firstTouchDone)
         {
             Vector2 currentTouchPosition = Input.mousePosition;
             float deltaY = currentTouchPosition.y - _lastTouchPosition.y;
@@ -40,6 +51,17 @@ public class SliderController : MonoBehaviour
             {
                 _touchingScreen = true;
             }
+
+            if (_touchingScreen)
+            {
+                _timeSinceTouching += Time.deltaTime;
+                if (_timeSinceTouching >= _timeLimit)
+                {
+                    _thrower.ThrowBall();
+                    _touchEnabled = false;
+                    _firstTouchDone = false;
+                }
+            }
             _lastTouchPosition = currentTouchPosition;
         }
         else if (Input.GetMouseButtonUp(0))
@@ -47,7 +69,8 @@ public class SliderController : MonoBehaviour
             if (_touchingScreen)
             {
                 _thrower.ThrowBall();
-                this.enabled = false;
+                _touchEnabled = false;
+                _firstTouchDone = false;
             }
             else
             {
@@ -55,16 +78,7 @@ public class SliderController : MonoBehaviour
                 _timeSinceTouching = 0f;
                 _throwSlider.value = 0;
                 _fillArea.SetActive(false);
-            }
-        }
-
-        if (_touchingScreen)
-        {
-            _timeSinceTouching += Time.deltaTime;
-            if (_timeSinceTouching >= _timeLimit)
-            {
-                _thrower.ThrowBall();
-                this.enabled = false;
+                _firstTouchDone = false;
             }
         }
     }
@@ -73,11 +87,12 @@ public class SliderController : MonoBehaviour
 
     public void ResetSlider()
     {
+        _touchEnabled = true;
+        _firstTouchDone = false;
         _touchingScreen = false;
+
         _timeSinceTouching = 0f;
         _throwSlider.value = 0;
         _fillArea.SetActive(false);
-
-        this.enabled = true;
     }
 }
