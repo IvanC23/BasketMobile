@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -13,7 +12,6 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float _goRingDuration = 1.0f;
     [SerializeField] private float _waitingTime = 2f;
 
-
     private Vector3 _cameraStartPosition;
     private Vector3 _cameraUpPosition;
     private Vector3 _cameraCloseRingPosition;
@@ -24,10 +22,9 @@ public class CameraController : MonoBehaviour
     private float _goRingTimer = 0f;
     private bool _coroutineStarted = false;
 
-
-
     void Start()
     {
+        // Initialize camera positions
         _cameraStartPosition = _cameraTransform.position;
         _cameraUpPosition = _cameraTransform.position + Vector3.up * 1.5f;
         _cameraCloseRingPosition = _ringPosition.position;
@@ -35,50 +32,48 @@ public class CameraController : MonoBehaviour
 
     void FixedUpdate()
     {
+        // Check if currently throwing ball and handle camera movement
         if (_throwingBall)
-        {
             ApproachRing();
-        }
     }
 
+    // Triggered when the ball is thrown
     public void ThrowBall()
     {
         _throwingBall = true;
     }
 
+    // Approach the ring
     private void ApproachRing()
     {
         GoUp();
     }
 
+    // Move the camera up to the throwing position
     private void GoUp()
     {
         _goUpTimer += Time.fixedDeltaTime;
-        float _timeGoingUp = _goUpTimer / _goUpDuration;
+        float timeGoingUp = _goUpTimer / _goUpDuration;
 
-        //In the first half of the throw, we go up with the camera reaching the same height of the ball
-        if (_timeGoingUp <= 1)
-        {
-            _cameraTransform.position = Vector3.Lerp(_cameraStartPosition, _cameraUpPosition, _timeGoingUp);
-        }
+        // In the first half of the throw, camera goes up to ball height
+        if (timeGoingUp <= 1)
+            _cameraTransform.position = Vector3.Lerp(_cameraStartPosition, _cameraUpPosition, timeGoingUp);
         else
-        {
             GoClose();
-        }
     }
 
+    // Move the camera closer to the ring
     private void GoClose()
     {
-        //In the second half, we approach the ring, using a timer which is 2 times the duration of the second half of the throw
-        //This way, we can use this timer to approach the final point of the throw until half of the way
         _goRingTimer += Time.fixedDeltaTime;
-        float _timeGoingRing = _goRingTimer / _goRingDuration;
-        if (_timeGoingRing <= 0.5f)
-        {
-            _cameraTransform.position = Vector3.Lerp(_cameraUpPosition, _cameraCloseRingPosition, _timeGoingRing);
-        }
+        float timeGoingRing = _goRingTimer / _goRingDuration;
+
+        // In the second half, approach the ring
+        if (timeGoingRing <= 0.5f)
+            _cameraTransform.position = Vector3.Lerp(_cameraUpPosition, _cameraCloseRingPosition, timeGoingRing);
         else
         {
+            // If not already started, start coroutine to finish the throw
             if (!_coroutineStarted)
             {
                 _coroutineStarted = true;
@@ -87,6 +82,7 @@ public class CameraController : MonoBehaviour
         }
     }
 
+    // Reset camera and related objects after the throw
     private void SetUpCamera()
     {
         _goRingTimer = 0f;
@@ -95,12 +91,14 @@ public class CameraController : MonoBehaviour
 
         _cameraTransform.position = _cameraStartPosition;
 
+        // Reset ball position and slider
         _ballThrower.ResetBall(_cameraTransform.position - Vector3.up * 0.6f + _cameraTransform.forward * 1.3f);
-
         _sliderController.ResetSlider();
+
         _coroutineStarted = false;
     }
 
+    // Coroutine to wait for some time before resetting the camera
     private IEnumerator FinishThrow()
     {
         yield return new WaitForSeconds(_waitingTime);

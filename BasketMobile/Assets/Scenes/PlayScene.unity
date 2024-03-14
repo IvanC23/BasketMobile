@@ -1001,7 +1001,7 @@ GameObject:
   - component: {fileID: 1257307337}
   - component: {fileID: 1257307338}
   m_Layer: 0
-  m_Name: InputManager
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1022,7 +1022,7 @@ MonoBehaviour:
   _throwSlider: {fileID: 885290323}
   _fillArea: {fileID: 1508608874}
   _growSpeed: 1.5
-  _timeLimit: 0.8
+  _timeLimit: 0.3
   _thrower: {fileID: 1257307337}
 --- !u!4 &1257307336
 Transform:

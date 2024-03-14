@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BallThrower : MonoBehaviour
@@ -14,35 +13,47 @@ public class BallThrower : MonoBehaviour
     private Rigidbody _basketballRigidbody;
     private Vector3 _basketBallThrowPosition;
     private float _throwingTimer = 0f;
-    private bool _ballThrowed = false;
+    private bool _ballThrown = false;
+
     void Start()
     {
+        // Initialize the throw position and get the Rigidbody component
         _basketBallThrowPosition = _basketball.position;
         _basketballRigidbody = _basketball.GetComponent<Rigidbody>();
     }
+
     void FixedUpdate()
     {
-        if (_ballThrowed)
+        // If ball is thrown, update its position
+        if (_ballThrown)
+            UpdateBallPosition();
+    }
+
+    // Update the position of the thrown ball
+    void UpdateBallPosition()
+    {
+        _throwingTimer += Time.fixedDeltaTime;
+        float timePassed = _throwingTimer / _throwingDuration;
+
+        // Calculate position based on interpolation and sinusoidal motion
+        _basketball.position = Vector3.Lerp(_basketBallThrowPosition, _ringCenter.position, timePassed) +
+                                Vector3.up * _throwingHeight * Mathf.Sin(timePassed * Mathf.PI);
+
+        // Enable physics after a certain time
+        if (_throwingTimer >= 0.5f)
+            _basketballRigidbody.isKinematic = false;
+
+        // Reset after throwing duration
+        if (_throwingTimer >= _throwingDuration)
         {
-            _throwingTimer += Time.fixedDeltaTime;
-            float timePassed = _throwingTimer / _throwingDuration;
-
-            _basketball.position = Vector3.Lerp(_basketBallThrowPosition, _ringCenter.position, timePassed) + Vector3.up * _throwingHeight * Mathf.Sin(timePassed * Mathf.PI);
-
-            if (_throwingTimer >= 0.5)
-            {
-                _basketballRigidbody.isKinematic = false;
-            }
-
-            if (_throwingTimer >= _throwingDuration)
-            {
-                _ballThrowed = false;
-                //_basketballRigidbody.AddForce(Vector3.down,ForceMode.Impulse);
-                //StartCoroutine(WaitAfterApex());
-            }
+            _ballThrown = false;
+            // Uncomment the lines below to apply additional force after reaching the apex
+            // _basketballRigidbody.AddForce(Vector3.down, ForceMode.Impulse);
+            // StartCoroutine(WaitAfterApex());
         }
     }
 
+    // Reset ball position
     public void ResetBall(Vector3 newBallPosition)
     {
         _throwingTimer = 0f;
@@ -50,9 +61,11 @@ public class BallThrower : MonoBehaviour
         _basketball.position = newBallPosition;
     }
 
+    // Trigger the ball throw
     public void ThrowBall()
     {
-        _ballThrowed = true;
+        _ballThrown = true;
+        // Trigger camera movement associated with ball throw
         _cameraController.ThrowBall();
     }
 }
