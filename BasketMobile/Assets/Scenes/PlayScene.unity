@@ -2197,7 +2197,7 @@ MonoBehaviour:
   _sliderController: {fileID: 1257307335}
   _goUpDuration: 0.5
   _goRingDuration: 1
-  _waitingTime: 0.75
+  _waitingTime: 0.8
   _positionsParent: {fileID: 807840051}
 --- !u!114 &1257307339
 MonoBehaviour:
