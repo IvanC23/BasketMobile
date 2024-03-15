@@ -5,6 +5,8 @@ using UnityEngine.UI;
 public class SliderController : MonoBehaviour
 {
     [SerializeField] private Slider _throwSlider;
+    [SerializeField] private Slider _scoreSlider;
+    [SerializeField] private Slider _boardSlider;
     [SerializeField] private GameObject _fillArea;
     [SerializeField] private float _growSpeed = 1.2f;
     [SerializeField] private float _timeLimit = 2f;
@@ -15,6 +17,7 @@ public class SliderController : MonoBehaviour
     private float _timeSinceTouching = 0f;
     private bool _touchEnabled = true;
     private bool _firstTouchDone = false;
+    
 
     void Update()
     {
@@ -49,7 +52,6 @@ public class SliderController : MonoBehaviour
                 _timeSinceTouching += Time.deltaTime;
                 if (_timeSinceTouching >= _timeLimit)
                 {
-                    _thrower.ThrowBall();
                     LaunchBall();
                 }
             }
@@ -67,7 +69,11 @@ public class SliderController : MonoBehaviour
 
     void LaunchBall()
     {
-        _thrower.ThrowBall();
+        float differenceScore = _throwSlider.value - _scoreSlider.value;
+        float differenceBoard = _throwSlider.value - _boardSlider.value;
+        Debug.Log("Difference: " + differenceScore);
+
+        _thrower.ThrowBall(differenceScore, differenceBoard);
         _touchEnabled = false;
         _firstTouchDone = false;
     }
@@ -89,6 +95,8 @@ public class SliderController : MonoBehaviour
         _touchingScreen = false;
         _timeSinceTouching = 0f;
         _throwSlider.value = 0;
+        _scoreSlider.value = UnityEngine.Random.Range(0.2f, 0.7f);
+        _boardSlider.value = _scoreSlider.value + 0.2f;
         _fillArea.SetActive(false);
     }
 }

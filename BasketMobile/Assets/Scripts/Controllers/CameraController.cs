@@ -11,7 +11,6 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float _goUpDuration = 1.0f;
     [SerializeField] private float _goRingDuration = 1.0f;
     [SerializeField] private float _waitingTime = 2f;
-
     [SerializeField] private Transform _positionsParent;
     private int _numberOfPositions;
 
@@ -28,13 +27,11 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
-        // Initialize camera positions
-        _cameraStartPosition = _cameraTransform.position;
-        _cameraUpPosition = _cameraTransform.position + Vector3.up * 1.5f;
         _cameraCloseRingPosition = _ringPosition.position;
 
         _numberOfPositions = _positionsParent.childCount;
-
+        
+        ResetCamera();
     }
 
     void FixedUpdate()
