@@ -18,7 +18,6 @@ public class EndChecker : MonoBehaviour
     private Color _boardShotColor = new Color(0.4677148f, 0f, 0.6588235f);
 
 
-
     void Start()
     {
         _textPointText = _textPoint.GetComponent<TMP_Text>();
