@@ -93,6 +93,9 @@ public class BallThrower : MonoBehaviour
     public void ThrowBall(float differenceScore, float differenceBoard)
     {
         _height = _throwingHeight + 2.0f * differenceScore;
+        
+        _ballController.SetPerfectShot(false);
+        _ballController.SetGoodShot(false);
 
         if (Mathf.Abs(differenceScore) < 0.04f)
         {
@@ -102,6 +105,7 @@ public class BallThrower : MonoBehaviour
 
             _finalDecelerationGoodShots = true;
             _ballController.SetGoodShot(true);
+            _ballController.SetPerfectShot(true);
 
             _objectivePosition = _ringCenter.position;
             Debug.Log("Perfect shot");
@@ -135,7 +139,6 @@ public class BallThrower : MonoBehaviour
             //Bad shot strong
 
             _finalDecelerationGoodShots = false;
-            _ballController.SetGoodShot(false);
 
             _objectivePosition = _badShotsStrong.GetChild(UnityEngine.Random.Range(0, _numOfShotsStrong)).position;
             Debug.Log("Bad shot strong");
@@ -145,7 +148,6 @@ public class BallThrower : MonoBehaviour
             //Bad shot weak
 
             _finalDecelerationGoodShots = false;
-            _ballController.SetGoodShot(false);
 
             _objectivePosition = _badShotsWeak.GetChild(UnityEngine.Random.Range(0, _numOfShotsWeak)).position;
             Debug.Log("Bad shot weak");
