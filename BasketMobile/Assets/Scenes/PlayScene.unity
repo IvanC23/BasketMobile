@@ -2135,7 +2135,7 @@ MonoBehaviour:
   _scoreSlider: {fileID: 2055017749}
   _boardSlider: {fileID: 1172954314}
   _fillArea: {fileID: 1508608874}
-  _growSpeed: 1.5
+  _growSpeed: 2.5
   _timeLimit: 0.3
   _thrower: {fileID: 1257307337}
 --- !u!4 &1257307336

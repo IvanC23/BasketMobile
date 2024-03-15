@@ -94,7 +94,7 @@ public class BallThrower : MonoBehaviour
     {
         _height = _throwingHeight + 2.0f * differenceScore;
 
-        if (Mathf.Abs(differenceScore) < 0.05f)
+        if (Mathf.Abs(differenceScore) < 0.04f)
         {
             //Perfect shot
 
@@ -118,7 +118,7 @@ public class BallThrower : MonoBehaviour
             _objectivePosition = _niceShots.GetChild(UnityEngine.Random.Range(0, _numOfNiceShots)).position;
             Debug.Log("Nice shot");
         }
-        else if (Mathf.Abs(differenceBoard) < 0.04f)
+        else if (Mathf.Abs(differenceBoard) < 0.05f)
         {
             //Board shot
 
