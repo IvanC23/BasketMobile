@@ -30,7 +30,7 @@ public class CameraController : MonoBehaviour
         _cameraCloseRingPosition = _ringPosition.position;
 
         _numberOfPositions = _positionsParent.childCount;
-        
+
         ResetCamera();
     }
 
@@ -89,6 +89,7 @@ public class CameraController : MonoBehaviour
     // Reset camera and related objects after the throw
     private void ResetCamera()
     {
+
         _goRingTimer = 0f;
         _goUpTimer = 0f;
         _throwingBall = false;
@@ -97,7 +98,7 @@ public class CameraController : MonoBehaviour
         _cameraStartPosition = _cameraTransform.position;
         _cameraUpPosition = _cameraTransform.position + Vector3.up * 1.5f;
 
-        
+
         _cameraTransform.LookAt(_ringPosition);
         _cameraTransform.rotation = Quaternion.Euler(0, _cameraTransform.rotation.eulerAngles.y, 0);
 
@@ -106,6 +107,7 @@ public class CameraController : MonoBehaviour
         _sliderController.ResetSlider();
 
         _coroutineStarted = false;
+
     }
 
     // Coroutine to wait for some time before resetting the camera
