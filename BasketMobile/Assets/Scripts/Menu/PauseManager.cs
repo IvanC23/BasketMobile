@@ -7,8 +7,7 @@ public class PauseManager : MonoBehaviour
     [SerializeField] private GameObject _pauseButton;
     [SerializeField] private SliderController _sliderController;
     [SerializeField] private GameObject _pausePanel;
-
-
+    [SerializeField] private GameObject _pauseMenu;
 
     public void Pause()
     {
@@ -17,6 +16,7 @@ public class PauseManager : MonoBehaviour
         _sliderController.ResetTouch();
         _sliderController.enabled = false;
         _pausePanel.SetActive(true);
+        _pauseMenu.SetActive(true);
     }
 
     public void Resume()
@@ -25,5 +25,6 @@ public class PauseManager : MonoBehaviour
         _pauseButton.SetActive(true);
         _sliderController.enabled = true;
         _pausePanel.SetActive(false);
+        _pauseMenu.SetActive(false);
     }
 }
