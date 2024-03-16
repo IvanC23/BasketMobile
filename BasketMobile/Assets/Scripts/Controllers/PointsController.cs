@@ -11,6 +11,7 @@ public class PointsController : MonoBehaviour
     [SerializeField] private Image _fillImage;
     [SerializeField] private GameObject _X2Indicator;
     [SerializeField] private GameObject _fireEffect;
+    [SerializeField] private GameObject _fireText;
     [SerializeField] private float _decreaseSpeed = 0.01f;
 
     private float _fillAmount = 0;
@@ -44,6 +45,7 @@ public class PointsController : MonoBehaviour
                     _isOnDoublePoints = true;
                     _X2Indicator.SetActive(true);
                     _fireEffect.SetActive(true);
+                    _fireText.SetActive(true);
                 }
                 _fillImage.fillAmount = _fillAmount;
             }
@@ -60,6 +62,7 @@ public class PointsController : MonoBehaviour
                     _isOnDoublePoints = true;
                     _X2Indicator.SetActive(true);
                     _fireEffect.SetActive(true);
+                    _fireText.SetActive(true);
                 }
                 _fillImage.fillAmount = _fillAmount;
             }
@@ -82,6 +85,7 @@ public class PointsController : MonoBehaviour
                 _isOnDoublePoints = false;
                 _X2Indicator.SetActive(false);
                 _fireEffect.SetActive(false);
+                _fireText.SetActive(false);
                 _fillImage.fillAmount = _fillAmount;
             }
 
@@ -94,7 +98,7 @@ public class PointsController : MonoBehaviour
         {
             if (_fillAmount > 0)
             {
-                _fillAmount = _fillAmount - _decreaseSpeed * Time.deltaTime;
+                _fillAmount = _fillAmount - _decreaseSpeed * Time.deltaTime * 2;
                 if (_fillAmount < 0)
                 {
                     _fillAmount = 0;
@@ -106,13 +110,14 @@ public class PointsController : MonoBehaviour
         {
             if (_fillAmount > 0)
             {
-                _fillAmount = _fillAmount - _decreaseSpeed * Time.deltaTime * 3;
+                _fillAmount = _fillAmount - _decreaseSpeed * Time.deltaTime * 6;
                 if (_fillAmount < 0)
                 {
                     _fillAmount = 0;
                     _isOnDoublePoints = false;
                     _X2Indicator.SetActive(false);
                     _fireEffect.SetActive(false);
+                    _fireText.SetActive(false);
                 }
                 _fillImage.fillAmount = _fillAmount;
             }

@@ -9,6 +9,7 @@ public class BoardController : MonoBehaviour
     [SerializeField] private GameObject _normalHighlight;
     [SerializeField] private GameObject _hitHighlight;
     [SerializeField] private GameObject _bonusTextObject;
+    [SerializeField] private GameObject _backboardText;
     [SerializeField] private TMP_Text _bonusText;
     [SerializeField] private List<int> _possibleBonuses;
     private float _timerBonusActivation;
@@ -35,6 +36,7 @@ public class BoardController : MonoBehaviour
                 _bonusText.text = "+" + _possibleBonuses[UnityEngine.Random.Range(0, _possibleBonuses.Count)].ToString();
                 _bonusTextObject.SetActive(true);
                 _normalHighlight.SetActive(true);
+                _backboardText.SetActive(true);
 
                 _normalHighlightActive = true;
             }
@@ -49,6 +51,7 @@ public class BoardController : MonoBehaviour
 
                 _bonusTextObject.SetActive(false);
                 _normalHighlight.SetActive(false);
+                _backboardText.SetActive(false);
                 _hitHighlight.SetActive(false);
 
                 _normalHighlightActive = false;
