@@ -82,7 +82,7 @@ public class SliderController : MonoBehaviour
         _firstTouchDone = false;
     }
 
-    void ResetTouch()
+    public void ResetTouch()
     {
         _touchingScreen = false;
         _timeSinceTouching = 0f;
