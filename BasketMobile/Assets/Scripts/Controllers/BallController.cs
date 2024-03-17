@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BallController : MonoBehaviour
@@ -7,6 +5,15 @@ public class BallController : MonoBehaviour
     private bool _goodShot = false;
     private bool _perfectShot = false;
     private int _boardPoints = 0;
+
+    // The ball propagates the information regarding the shot to the backboard
+    // since we already know if it is a good shot or not tha backboard will add
+    // points to the ball only if it is a good shot, then in the last phase,
+    // when the final points will be added to the final score, the throwcontroller
+    // will check if some points were added to the ball and eventually add them to the final score
+
+    // This reasoning was made to take into account multiple balls in case of different users
+    // playing in the same session
 
     public void SetGoodShot(bool goodShot)
     {

@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using UnityEngine;
 
 public class BallThrower : MonoBehaviour
@@ -13,6 +11,10 @@ public class BallThrower : MonoBehaviour
     [SerializeField] private float _finalDeceleration = 0.3f;
     [SerializeField] private CameraController _cameraController;
     [SerializeField] private PointsController _pointsController;
+    [SerializeField] private Transform _badShotsWeak;
+    [SerializeField] private Transform _badShotsStrong;
+    [SerializeField] private Transform _niceShots;
+    [SerializeField] private Transform _boardShots;
 
     private Rigidbody _basketballRigidbody;
     private BallController _ballController;
@@ -21,45 +23,37 @@ public class BallThrower : MonoBehaviour
     private float _throwingTimer = 0f;
     private bool _ballThrown = false;
     private float _height;
-
     private bool _finalDecelerationGoodShots = false;
-
-    [SerializeField] private Transform _badShotsWeak;
     private int _numOfShotsWeak;
-    [SerializeField] private Transform _badShotsStrong;
     private int _numOfShotsStrong;
-    [SerializeField] private Transform _niceShots;
     private int _numOfNiceShots;
-    [SerializeField] private Transform _boardShots;
     private int _numOfBoardShots;
-
-
     private int _shotScore = 0;
 
+    // In this script we position and throw the ball
+    // In the last phase, when the ball is repositioned, we compute the final score
+    // also based on eventual bonus points given by the backboard and pass them to the PointsController
 
-
-    void Start()
+    private void Start()
     {
-        // Initialize the throw position and get the Player's Ball components
+        // Initialize variables and positions
         _basketball.LookAt(_cameraTransform);
-
         Vector3 rotation = _basketball.rotation.eulerAngles;
         rotation.x = 0;
         _basketball.rotation = Quaternion.Euler(rotation);
-
         _basketBallThrowPosition = _basketball.position;
         _basketballRigidbody = _basketball.GetComponent<Rigidbody>();
         _ballController = _basketball.GetComponent<BallController>();
-
-        //SettingUp positions for the shots
         _objectivePosition = _ringCenter.position;
+
+        // Get the number of positions for different shot types
         _numOfShotsWeak = _badShotsWeak.childCount;
         _numOfShotsStrong = _badShotsStrong.childCount;
         _numOfNiceShots = _niceShots.childCount;
         _numOfBoardShots = _boardShots.childCount;
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         // If ball is thrown, update its position
         if (_ballThrown)
@@ -67,7 +61,7 @@ public class BallThrower : MonoBehaviour
     }
 
     // Update the position of the thrown ball
-    void UpdateBallPosition()
+    private void UpdateBallPosition()
     {
         _throwingTimer += Time.fixedDeltaTime;
         float timePassed = _throwingTimer / _throwingDuration;
@@ -81,11 +75,7 @@ public class BallThrower : MonoBehaviour
         {
             _ballThrown = false;
             if (_finalDecelerationGoodShots)
-            {
                 _basketballRigidbody.velocity *= _finalDeceleration;
-            }
-            // Uncomment the lines below to apply additional force after reaching the apex
-            // _basketballRigidbody.AddForce(Vector3.down, ForceMode.Impulse);
         }
     }
 
@@ -93,64 +83,50 @@ public class BallThrower : MonoBehaviour
     public void ThrowBall(float differenceScore, float differenceBoard)
     {
         _height = _throwingHeight + 2.0f * differenceScore;
-        
         _ballController.SetPerfectShot(false);
         _ballController.SetGoodShot(false);
 
         if (Mathf.Abs(differenceScore) < 0.04f)
         {
-            //Perfect shot
-
+            // Perfect shot
+            Debug.Log("Perfect shot");
             _shotScore = 3;
-
             _finalDecelerationGoodShots = true;
             _ballController.SetGoodShot(true);
             _ballController.SetPerfectShot(true);
-
             _objectivePosition = _ringCenter.position;
-            Debug.Log("Perfect shot");
         }
         else if (Mathf.Abs(differenceScore) < 0.1f)
         {
-            //Nice shot
-
+            // Nice shot
+            Debug.Log("Nice shot");
             _shotScore = 2;
-
             _finalDecelerationGoodShots = true;
             _ballController.SetGoodShot(true);
-
-            _objectivePosition = _niceShots.GetChild(UnityEngine.Random.Range(0, _numOfNiceShots)).position;
-            Debug.Log("Nice shot");
+            _objectivePosition = _niceShots.GetChild(Random.Range(0, _numOfNiceShots)).position;
         }
         else if (Mathf.Abs(differenceBoard) < 0.05f)
         {
-            //Board shot
-
+            // Board shot
+            Debug.Log("Board shot");
             _shotScore = 2;
-
             _finalDecelerationGoodShots = true;
             _ballController.SetGoodShot(true);
-
-            _objectivePosition = _boardShots.GetChild(UnityEngine.Random.Range(0, _numOfBoardShots)).position;
-            Debug.Log("Board shot");
+            _objectivePosition = _boardShots.GetChild(Random.Range(0, _numOfBoardShots)).position;
         }
         else if (differenceScore > 0)
         {
-            //Bad shot strong
-
-            _finalDecelerationGoodShots = false;
-
-            _objectivePosition = _badShotsStrong.GetChild(UnityEngine.Random.Range(0, _numOfShotsStrong)).position;
+            // Bad shot strong
             Debug.Log("Bad shot strong");
+            _finalDecelerationGoodShots = false;
+            _objectivePosition = _badShotsStrong.GetChild(Random.Range(0, _numOfShotsStrong)).position;
         }
         else
         {
-            //Bad shot weak
-
-            _finalDecelerationGoodShots = false;
-
-            _objectivePosition = _badShotsWeak.GetChild(UnityEngine.Random.Range(0, _numOfShotsWeak)).position;
+            // Bad shot weak
             Debug.Log("Bad shot weak");
+            _finalDecelerationGoodShots = false;
+            _objectivePosition = _badShotsWeak.GetChild(Random.Range(0, _numOfShotsWeak)).position;
         }
 
         _ballThrown = true;
@@ -160,21 +136,16 @@ public class BallThrower : MonoBehaviour
         _basketballRigidbody.AddTorque(Vector3.right * _rotationForce);
     }
 
-    // Reset ball position
+    // Reset ball position and pass the score to the PointsController
     public void ResetBall(Vector3 newBallPosition)
     {
         if (_ballController.GetBoardPoints() != 0)
-        {
             _pointsController.AddPoints(_ballController.GetBoardPoints());
-        }
         else
-        {
             _pointsController.AddPoints(_shotScore);
-        }
 
         _ballController.SetBoardPoints(0);
         _shotScore = 0;
-
         _throwingTimer = 0f;
         _basketballRigidbody.isKinematic = true;
         _basketball.position = newBallPosition;
@@ -183,7 +154,6 @@ public class BallThrower : MonoBehaviour
         Vector3 rotation = _basketball.rotation.eulerAngles;
         rotation.x = 0;
         _basketball.rotation = Quaternion.Euler(rotation);
-
         _basketball.rotation = new Quaternion(0, _basketball.rotation.y, _basketball.rotation.z, _basketball.rotation.w);
         _basketBallThrowPosition = _basketball.position;
     }

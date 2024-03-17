@@ -25,7 +25,7 @@ public class CameraController : MonoBehaviour
     private float _goRingTimer = 0f;
     private bool _coroutineStarted = false;
 
-    void Start()
+    private void Start()
     {
         _cameraCloseRingPosition = _ringPosition.position;
 
@@ -34,7 +34,7 @@ public class CameraController : MonoBehaviour
         ResetCamera();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         // Check if currently throwing ball and handle camera movement
         if (_throwingBall)
@@ -59,7 +59,7 @@ public class CameraController : MonoBehaviour
         _goUpTimer += Time.fixedDeltaTime;
         float timeGoingUp = _goUpTimer / _goUpDuration;
 
-        // In the first half of the throw, camera goes up to ball height
+        // In the first half of the throw, camera goes up
         if (timeGoingUp <= 1)
             _cameraTransform.position = Vector3.Lerp(_cameraStartPosition, _cameraUpPosition, timeGoingUp);
         else
@@ -89,16 +89,16 @@ public class CameraController : MonoBehaviour
     // Reset camera and related objects after the throw
     private void ResetCamera()
     {
-
         _goRingTimer = 0f;
         _goUpTimer = 0f;
         _throwingBall = false;
 
+        // Randomly set camera position from available positions
         _cameraTransform.position = _positionsParent.GetChild(Random.Range(0, _numberOfPositions)).position;
         _cameraStartPosition = _cameraTransform.position;
         _cameraUpPosition = _cameraTransform.position + Vector3.up * 1.5f;
 
-
+        // Look at the ring
         _cameraTransform.LookAt(_ringPosition);
         _cameraTransform.rotation = Quaternion.Euler(0, _cameraTransform.rotation.eulerAngles.y, 0);
 
@@ -107,7 +107,6 @@ public class CameraController : MonoBehaviour
         _sliderController.ResetSlider();
 
         _coroutineStarted = false;
-
     }
 
     // Coroutine to wait for some time before resetting the camera
