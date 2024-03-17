@@ -2,9 +2,11 @@ using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
+    [SerializeField] private bool _isBotBall = false;
     private bool _goodShot = false;
     private bool _perfectShot = false;
     private int _boardPoints = 0;
+    private bool _getValidShot = false;
 
     // The ball propagates the information regarding the shot to the backboard
     // since we already know if it is a good shot or not tha backboard will add
@@ -43,5 +45,20 @@ public class BallController : MonoBehaviour
     public bool GetPerfectShot()
     {
         return _perfectShot;
+    }
+
+    public void SetValidShot(bool isValid)
+    {
+        _getValidShot = isValid;
+    }
+
+    public bool GetValidShot()
+    {
+        return _getValidShot;
+    }
+
+    public bool IsBotBall()
+    {
+        return _isBotBall;
     }
 }

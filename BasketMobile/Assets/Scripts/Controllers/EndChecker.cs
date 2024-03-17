@@ -28,48 +28,53 @@ public class EndChecker : MonoBehaviour
         // Check if the collided object is a ball
         if (other.gameObject.tag == "Ball")
         {
-            // Check if it's a perfect shot
-            if (other.gameObject.GetComponent<BallController>().GetPerfectShot())
+            other.gameObject.GetComponent<BallController>().SetValidShot(true);
+            if (!other.gameObject.GetComponent<BallController>().IsBotBall())
             {
-                // Set text, color, and activate objects for a perfect shot
-                if (_pointsController.IsOnDoublePoints())
-                    _textPointText.text = "PERFECT SHOT!\n+6";
-                else
-                    _textPointText.text = "PERFECT SHOT!\n+3";
-
-                _textPointText.color = _perfectColor;
-                _textPoint.SetActive(true);
-                _perfectShotEffect.SetActive(true);
-            }
-            else
-            {
-                // If not perfect, check if it's a board shot or a nice shot
-                if (other.gameObject.GetComponent<BallController>().GetBoardPoints() != 0)
+                // Check if it's a perfect shot
+                if (other.gameObject.GetComponent<BallController>().GetPerfectShot())
                 {
-                    // Set text, color, and activate objects for a board shot
+                    // Set text, color, and activate objects for a perfect shot
                     if (_pointsController.IsOnDoublePoints())
-                        _textPointText.text = "BOARD SHOT!\n+" + other.gameObject.GetComponent<BallController>().GetBoardPoints() * 2;
+                        _textPointText.text = "PERFECT SHOT!\n+6";
                     else
-                        _textPointText.text = "BOARD SHOT!\n+" + other.gameObject.GetComponent<BallController>().GetBoardPoints();
+                        _textPointText.text = "PERFECT SHOT!\n+3";
 
-                    _textPointText.color = _boardShotColor;
+                    _textPointText.color = _perfectColor;
                     _textPoint.SetActive(true);
+                    _perfectShotEffect.SetActive(true);
                 }
                 else
                 {
-                    // Set text, color, and activate objects for a nice shot
-                    if (_pointsController.IsOnDoublePoints())
-                        _textPointText.text = "NICE SHOT!\n+4";
+                    // If not perfect, check if it's a board shot or a nice shot
+                    if (other.gameObject.GetComponent<BallController>().GetBoardPoints() != 0)
+                    {
+                        // Set text, color, and activate objects for a board shot
+                        if (_pointsController.IsOnDoublePoints())
+                            _textPointText.text = "BOARD SHOT!\n+" + other.gameObject.GetComponent<BallController>().GetBoardPoints() * 2;
+                        else
+                            _textPointText.text = "BOARD SHOT!\n+" + other.gameObject.GetComponent<BallController>().GetBoardPoints();
+
+                        _textPointText.color = _boardShotColor;
+                        _textPoint.SetActive(true);
+                    }
                     else
-                        _textPointText.text = "NICE SHOT!\n+2";
-                    _textPointText.color = _niceShotColor;
-                    _textPoint.SetActive(true);
+                    {
+                        // Set text, color, and activate objects for a nice shot
+                        if (_pointsController.IsOnDoublePoints())
+                            _textPointText.text = "NICE SHOT!\n+4";
+                        else
+                            _textPointText.text = "NICE SHOT!\n+2";
+                        _textPointText.color = _niceShotColor;
+                        _textPoint.SetActive(true);
+                    }
+                    _goodShotEffect.SetActive(true);
                 }
-                _goodShotEffect.SetActive(true);
+
+                // Start the coroutine to disable the _textPoint object after the animation is finished
+                StartCoroutine(DisableTextPointAfterAnimation());
             }
 
-            // Start the coroutine to disable the _textPoint object after the animation is finished
-            StartCoroutine(DisableTextPointAfterAnimation());
         }
     }
 

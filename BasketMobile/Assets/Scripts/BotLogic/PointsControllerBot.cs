@@ -1,14 +1,10 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class PointsController : MonoBehaviour
+public class PointsControllerBot : MonoBehaviour
 {
     [SerializeField] private TMP_Text _pointsText;
-    [SerializeField] private Image _fillImage;
-    [SerializeField] private GameObject _X2Indicator;
     [SerializeField] private GameObject _fireEffect;
-    [SerializeField] private GameObject _fireText;
     [SerializeField] private float _decreaseSpeed = 0.01f;
 
     private float _fillAmount = 0;
@@ -46,11 +42,8 @@ public class PointsController : MonoBehaviour
                 {
                     _fillAmount = 1;
                     _isOnDoublePoints = true;
-                    _X2Indicator.SetActive(true);
                     _fireEffect.SetActive(true);
-                    _fireText.SetActive(true);
                 }
-                _fillImage.fillAmount = _fillAmount;
             }
         }
         // Decrease fill amount for wrong shots
@@ -63,17 +56,13 @@ public class PointsController : MonoBehaviour
                 {
                     _fillAmount = 0;
                 }
-                _fillImage.fillAmount = _fillAmount;
             }
             // Reset fill and indicators if double points were active
             else
             {
                 _fillAmount = 0;
                 _isOnDoublePoints = false;
-                _X2Indicator.SetActive(false);
                 _fireEffect.SetActive(false);
-                _fireText.SetActive(false);
-                _fillImage.fillAmount = _fillAmount;
             }
         }
     }
@@ -91,7 +80,6 @@ public class PointsController : MonoBehaviour
                 {
                     _fillAmount = 0;
                 }
-                _fillImage.fillAmount = _fillAmount;
             }
         }
         // Decrease fill amount faster if double points are active
@@ -104,11 +92,8 @@ public class PointsController : MonoBehaviour
                 {
                     _fillAmount = 0;
                     _isOnDoublePoints = false;
-                    _X2Indicator.SetActive(false);
                     _fireEffect.SetActive(false);
-                    _fireText.SetActive(false);
                 }
-                _fillImage.fillAmount = _fillAmount;
             }
         }
     }
