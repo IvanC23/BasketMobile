@@ -24,6 +24,10 @@ public class VictoryManager : MonoBehaviour
     private RewardsManager _rewardsManager;
     private bool _gameOn = false;
 
+    // This component is similar to the FinishManager, but it's used for the challenge mode.
+    // It disables the slider controller and shows the finish panel when the time is over, monitoring the scores obtained by the player and the bot
+    // and consequently showing the result of the game, eventually showing the reward icon if the player wins.
+
     void Start()
     {
         _rewardsManager = FindObjectOfType<RewardsManager>();

@@ -9,7 +9,9 @@ public class RewardsConnector : MonoBehaviour
     [SerializeField] private GameObject _rewardsSlotsPanel;
     [SerializeField] private GameObject _rewardPopUpPanel;
 
-
+    // Component needed to connect the singletone related to the data related to the rewards with the main menu.
+    // Since the RewardsManager is a Singleton which is not destroyed when the scene is changed, we can use this
+    // script to mantain references with the main page and its elements, to connect them with the rewards system.
 
     private RewardsManager _rewardsManager;
 

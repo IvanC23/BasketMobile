@@ -12,8 +12,8 @@ public class BoardController : MonoBehaviour
 
     [SerializeField] private List<int> _possibleBonuses;
 
-    private float _timerBonusActivation;
-    private float _timerBonusDeactivation = 8.0f;
+    private float _timerNormalHighlightOn;
+    private float _timerNormalHighlightOff = 8.0f;
     private float _timerHitDeactivation = 1.0f;
 
     private bool _normalHighlightActive = false;
@@ -22,7 +22,7 @@ public class BoardController : MonoBehaviour
 
     private void Start()
     {
-        _timerBonusActivation = UnityEngine.Random.Range(5, 15);
+        _timerNormalHighlightOn = UnityEngine.Random.Range(5, 15);
     }
 
     void Update()
@@ -30,70 +30,90 @@ public class BoardController : MonoBehaviour
         // Handle the activation and deactivation of normal highlight
         if (!_normalHighlightActive)
         {
-            _timerBonusActivation -= Time.deltaTime;
-            if (_timerBonusActivation <= 0)
+            _timerNormalHighlightOn -= Time.deltaTime;
+            if (_timerNormalHighlightOn <= 0)
             {
-                // Reset the timer and set up the bonus text, highlight, and backboard text
-                _timerBonusActivation = UnityEngine.Random.Range(5, 15);
-                _bonusText.text = "+" + _possibleBonuses[UnityEngine.Random.Range(0, _possibleBonuses.Count)].ToString();
-                _bonusTextObject.SetActive(true);
-                _normalHighlight.SetActive(true);
-                _backboardText.SetActive(true);
-                _normalHighlightActive = true;
+                NormalHighlightOn();
             }
         }
         else
         {
             // Handle the deactivation of normal highlight
-            _timerBonusDeactivation -= Time.deltaTime;
-            if (_timerBonusDeactivation <= 0)
+            _timerNormalHighlightOff -= Time.deltaTime;
+            if (_timerNormalHighlightOff <= 0)
             {
-                // Reset the timer and deactivate bonus related objects
-                _timerBonusActivation = UnityEngine.Random.Range(5, 15);
-                _timerBonusDeactivation = 8.0f;
-                _bonusTextObject.SetActive(false);
-                _normalHighlight.SetActive(false);
-                _backboardText.SetActive(false);
-                _hitHighlight.SetActive(false);
-                _normalHighlightActive = false;
+                NormalHighlightOff();
             }
         }
 
-        // Handle the deactivation of hit highlight
+        // Handle the deactivation of hit highlight, if it was already activated by the interaction with a ball
         if (_hitHighlightActive)
         {
             _timerHitDeactivation -= Time.deltaTime;
             if (_timerHitDeactivation <= 0)
             {
-                // Reset the timer and deactivate hit highlight
-                if (_goodShotEntering)
-                {
-                    _timerBonusActivation = UnityEngine.Random.Range(5, 15);
-                    _timerBonusDeactivation = 8.0f;
-                    _bonusTextObject.SetActive(false);
-                    _normalHighlight.SetActive(false);
-                    _backboardText.SetActive(false);
-                    _normalHighlightActive = false;
-                    _goodShotEntering = false;
-                }
-                _hitHighlight.SetActive(false);
-                _hitHighlightActive = false;
-                _timerHitDeactivation = 1.0f;
+                DeactivateHitHighlight();
             }
         }
     }
 
-    // Handle collision with the board
+
+    // Reset the timer and set up the bonus text, highlight, and backboard text
+    void NormalHighlightOn()
+    {
+        _timerNormalHighlightOn = UnityEngine.Random.Range(5, 15);
+        _bonusText.text = "+" + _possibleBonuses[UnityEngine.Random.Range(0, _possibleBonuses.Count)].ToString();
+        _bonusTextObject.SetActive(true);
+        _normalHighlight.SetActive(true);
+        _backboardText.SetActive(true);
+        _normalHighlightActive = true;
+    }
+
+    // Reset the timer and deactivate bonus related objects
+    void NormalHighlightOff()
+    {
+        _timerNormalHighlightOn = UnityEngine.Random.Range(5, 15);
+        _timerNormalHighlightOff = 8.0f;
+        _bonusTextObject.SetActive(false);
+        _normalHighlight.SetActive(false);
+        _backboardText.SetActive(false);
+        _hitHighlight.SetActive(false);
+        _normalHighlightActive = false;
+    }
+
+    // Deactivate the hit highlight and reset the timer
+    void DeactivateHitHighlight()
+    {
+        // Here we distinguish between a deactivation caused simply by the deactivation timer of the hit effect
+        // or by a good shot entering the ring.
+        if (_goodShotEntering)
+        {
+            _timerNormalHighlightOn = UnityEngine.Random.Range(5, 15);
+            _timerNormalHighlightOff = 8.0f;
+            _bonusTextObject.SetActive(false);
+            _normalHighlight.SetActive(false);
+            _backboardText.SetActive(false);
+            _normalHighlightActive = false;
+            _goodShotEntering = false;
+        }
+        _hitHighlight.SetActive(false);
+        _hitHighlightActive = false;
+        _timerHitDeactivation = 1.0f;
+    }
+
+    // Handle collision of the ball with the backboard
     void OnCollisionEnter(Collision collision)
     {
         if (_normalHighlightActive)
         {
             if (collision.gameObject.tag == "Ball")
             {
+                /// HitHighlight activation
                 _hitHighlight.SetActive(true);
                 _hitHighlightActive = true;
 
-                // Check if it's a good shot and update points
+                // Check if it's a good shot, update points and notify the backboard that the ball is supposed to enter
+                // so that when DeactivateHitHighlight is called, the backboard will know if the ball was entering the ring
                 if (collision.gameObject.transform.GetComponent<BallController>().GetGoodShot() && !_goodShotEntering)
                 {
                     collision.gameObject.transform.GetComponent<BallController>().SetBoardPoints(int.Parse(_bonusText.text.Substring(1)));

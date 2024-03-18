@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,6 +9,9 @@ public class RewardsManager : MonoBehaviour
     private List<bool> _currentlyActiveRewards;
     private RewardsConnector _rewardsConnector;
     private int _rewardsCount = 0;
+
+    // Singleton used to mantain information about the rewards that the player has won, and to show them in the main page
+    // Rewards are incremented when the player wins a match or finish a practice game, and are shown in the main page
 
     void Awake()
     {
@@ -29,7 +31,7 @@ public class RewardsManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene.name == "Menu" && instance == this)
         {

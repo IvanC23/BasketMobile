@@ -15,6 +15,7 @@ public class StartUpController : MonoBehaviour
     private float _fontSizeChangeDuration = 1.0f;
 
     // Disable the slider controller on awake if it's enabled
+    // This is done to avoid the player to move the slider before the game starts
     private void Awake()
     {
         if (_slideController.enabled)
@@ -23,35 +24,28 @@ public class StartUpController : MonoBehaviour
 
     private void Start()
     {
-        // Start the welcome coroutine when the scene starts
         StartCoroutine(Welcome());
     }
 
-    // Coroutine to display the welcome message
+    // Coroutine to display the initial countdown
     private IEnumerator Welcome()
     {
-        // Freeze time to display the welcome message
         Time.timeScale = 0;
 
-        // Show "3" with scaling font size animation
         _welcomeText.text = "3";
         _welcomeObject.SetActive(true);
         yield return ScaleFontSizeOverTime(_initialFontSize, _finalFontSize, _fontSizeChangeDuration);
 
-        // Show "2" with scaling font size animation
         _welcomeText.text = "2";
         yield return ScaleFontSizeOverTime(_initialFontSize, _finalFontSize, _fontSizeChangeDuration);
 
-        // Show "1" with scaling font size animation
         _welcomeText.text = "1";
         yield return ScaleFontSizeOverTime(_initialFontSize, _finalFontSize, _fontSizeChangeDuration);
 
-        // Set final font size and display "GO!"
         _welcomeText.fontSize = (int)_finalFontSize;
         _welcomeText.text = "GO!";
         yield return new WaitForSecondsRealtime(0.5f);
 
-        // Hide the welcome message, resume time, and enable the slider controller
         _welcomeObject.SetActive(false);
 
         if (_victoryManager != null)
@@ -67,20 +61,15 @@ public class StartUpController : MonoBehaviour
         float timeElapsed = 0f;
         while (timeElapsed < duration)
         {
-            // Calculate the progress of the animation
             float t = timeElapsed / duration;
 
-            // Interpolate font size based on progress
             _welcomeText.fontSize = (int)Mathf.Lerp(startSize, endSize, t);
 
-            // Increment time elapsed
             timeElapsed += Time.unscaledDeltaTime;
 
-            // Wait for the next frame
             yield return null;
         }
 
-        // Ensure the final font size is set
         _welcomeText.fontSize = (int)endSize;
     }
 }

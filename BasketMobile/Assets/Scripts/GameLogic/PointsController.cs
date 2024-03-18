@@ -13,30 +13,32 @@ public class PointsController : MonoBehaviour
 
     private float _fillAmount = 0;
     private bool _isOnDoublePoints = false;
-
     private int _totalPoints = 0;
 
-    // Method to add points to the total and manage fill bar
+    // Component responsable for managing the points of the player, and the fireball feature, with the related bar.
+
+    // Method to add points to the total and manage fill bar. This method will be called by BallThrower when the throw is completed
+    // and the ball replaced.
     public void AddPoints(int points)
     {
-        // Double points if active
+        // Double points if on fireball mode.
         if (_isOnDoublePoints)
         {
             points *= 2;
         }
 
-        // Manage fill bar based on the points
+        // Manage fill bar used for the fireball mode.
         ManageFillBar(points);
 
-        // Update total points and UI text
+        // Update total points displayed on the UI.
         _totalPoints += points;
         _pointsText.text = _totalPoints.ToString();
     }
 
-    // Method to manage the fill bar based on the points earned
+    // Method to manage the increase and decrease of the fill bar based on the scored points and the time passed.
     void ManageFillBar(float points)
     {
-        // Increase fill amount for perfect and good shots
+        // Increase fill amount for perfect and good shots.
         if (points == 3 || points > 0)
         {
             if (!_isOnDoublePoints)
@@ -53,7 +55,7 @@ public class PointsController : MonoBehaviour
                 _fillImage.fillAmount = _fillAmount;
             }
         }
-        // Decrease fill amount for wrong shots
+        // Decrease fill amount for wrong shots or disable the fireball mode if it was active.
         else
         {
             if (!_isOnDoublePoints)
@@ -65,7 +67,6 @@ public class PointsController : MonoBehaviour
                 }
                 _fillImage.fillAmount = _fillAmount;
             }
-            // Reset fill and indicators if double points were active
             else
             {
                 _fillAmount = 0;
@@ -78,7 +79,8 @@ public class PointsController : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+    // In the update function, if the fill bar is not empty, decrease the fill amount based on the time passed.
+    // If we are in fireball mode, decrease the fill amount 3 times faster.
     void Update()
     {
         // Decrease fill amount if double points are inactive
@@ -116,4 +118,5 @@ public class PointsController : MonoBehaviour
     {
         return _isOnDoublePoints;
     }
+
 }

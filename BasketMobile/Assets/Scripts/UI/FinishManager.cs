@@ -17,6 +17,9 @@ public class FinishManager : MonoBehaviour
     private RewardsManager _rewardsManager;
     private bool _gameOn = false;
 
+    // Component created to manage the end of the practice game, when the time is over it disable some of the elements of the game interface,
+    // enabling a finish panel created for the practice mode, and showing the score of the player.
+
     void Start()
     {
         _rewardsManager = FindObjectOfType<RewardsManager>();
@@ -49,6 +52,10 @@ public class FinishManager : MonoBehaviour
         _backgroundPanel.SetActive(true);
         _finishPanel.SetActive(true);
         _userInfoBox.SetActive(false);
+        if (_rewardsManager != null)
+        {
+            _rewardsManager.AddReward();
+        }
 
     }
 

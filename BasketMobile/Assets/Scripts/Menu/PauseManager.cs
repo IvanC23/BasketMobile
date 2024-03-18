@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,6 +7,13 @@ public class PauseManager : MonoBehaviour
     [SerializeField] private SliderController _sliderController;
     [SerializeField] private GameObject _pausePanel;
     [SerializeField] private GameObject _pauseMenu;
+
+    // Component used to hide different UI elements when the game is paused
+    // and to show the pause menu, which allows the player to resume, return to the main menu, or restart the game
+
+
+    // Pausing the game, we also disable the component binded to the slider, to avoid interactions with the screen
+    // activating its animations
 
     public void Pause()
     {

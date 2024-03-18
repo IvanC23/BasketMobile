@@ -9,8 +9,10 @@ public class EndChecker : MonoBehaviour
     [SerializeField] private GameObject _goodShotEffect;
     [SerializeField] private GameObject _perfectShotEffect;
     [SerializeField] private GameObject _textPoint;
-
     private TMP_Text _textPointText;
+
+    // Component attached to a collider placed in the basket, to check if the ball enters the basket and give points to the player.
+    // It also activates the effects and the text that appears when the player makes a good shot.
 
     // Colors for different shot types
     private Color _perfectColor = new Color(0.02071772f, 0.6603774f, 0.0f); // Perfect shot color
@@ -19,7 +21,6 @@ public class EndChecker : MonoBehaviour
 
     private void Start()
     {
-        // Get the TMP_Text component of the _textPoint object
         _textPointText = _textPoint.GetComponent<TMP_Text>();
     }
 
@@ -28,13 +29,21 @@ public class EndChecker : MonoBehaviour
         // Check if the collided object is a ball
         if (other.gameObject.tag == "Ball")
         {
+            // Here we set the ball as a valid shot to propagate the information when the ball will be
+            // checked in the final phase before adding the points to the player score.
+            // If the ball didn't trigger this collider, it means that it didn't enter the basket, so it's not a valid shot.
+
             other.gameObject.GetComponent<BallController>().SetValidShot(true);
+
+
+            // If the ball is not a bot ball, we can show the effects to the player, distinguishing based on the type of shot and
+            // eventually the double points status if the player is in fireball mode.
+
             if (!other.gameObject.GetComponent<BallController>().IsBotBall())
             {
-                // Check if it's a perfect shot
+                // PERFECT SHOT
                 if (other.gameObject.GetComponent<BallController>().GetPerfectShot())
                 {
-                    // Set text, color, and activate objects for a perfect shot
                     if (_pointsController.IsOnDoublePoints())
                         _textPointText.text = "PERFECT SHOT!\n+6";
                     else
@@ -46,10 +55,9 @@ public class EndChecker : MonoBehaviour
                 }
                 else
                 {
-                    // If not perfect, check if it's a board shot or a nice shot
                     if (other.gameObject.GetComponent<BallController>().GetBoardPoints() != 0)
                     {
-                        // Set text, color, and activate objects for a board shot
+                        // BOARD SHOT
                         if (_pointsController.IsOnDoublePoints())
                             _textPointText.text = "BOARD SHOT!\n+" + other.gameObject.GetComponent<BallController>().GetBoardPoints() * 2;
                         else
@@ -60,7 +68,7 @@ public class EndChecker : MonoBehaviour
                     }
                     else
                     {
-                        // Set text, color, and activate objects for a nice shot
+                        // NICE SHOT
                         if (_pointsController.IsOnDoublePoints())
                             _textPointText.text = "NICE SHOT!\n+4";
                         else
@@ -70,24 +78,19 @@ public class EndChecker : MonoBehaviour
                     }
                     _goodShotEffect.SetActive(true);
                 }
-
-                // Start the coroutine to disable the _textPoint object after the animation is finished
                 StartCoroutine(DisableTextPointAfterAnimation());
             }
 
         }
     }
 
-    // Coroutine to disable the _textPoint object after the animation
+    // Coroutine used to disable the effect object after its animation is finished
     private IEnumerator DisableTextPointAfterAnimation()
     {
-        // Get the Animator component attached to the _textPoint object
         Animator anim = _textPoint.GetComponent<Animator>();
 
-        // Wait for the duration of the animation
         yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
 
-        // Disable the _textPoint object
         _textPoint.SetActive(false);
     }
 }
