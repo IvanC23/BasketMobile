@@ -30,27 +30,14 @@ public class BallThrower : MonoBehaviour
     private int _numOfBoardShots;
     private int _shotScore = 0;
 
-    // In this script we position and throw the ball
-    // In the last phase, when the ball is repositioned, we compute the final score
-    // also based on eventual bonus points given by the backboard and pass them to the PointsController
+    // This component reposition the ball with respect to the camera and throws it
+    // In the last phase, when the ball is being repositioned, the component compute the final score and
+    // pass it to the PointsController, which will update the score on the UI and eventually enter the fireball mode.
 
     private void Start()
     {
-        // Initialize variables and positions
-        _basketball.LookAt(_cameraTransform);
-        Vector3 rotation = _basketball.rotation.eulerAngles;
-        rotation.x = 0;
-        _basketball.rotation = Quaternion.Euler(rotation);
-        _basketBallThrowPosition = _basketball.position;
-        _basketballRigidbody = _basketball.GetComponent<Rigidbody>();
-        _ballController = _basketball.GetComponent<BallController>();
-        _objectivePosition = _ringCenter.position;
-
-        // Get the number of positions for different shot types
-        _numOfShotsWeak = _badShotsWeak.childCount;
-        _numOfShotsStrong = _badShotsStrong.childCount;
-        _numOfNiceShots = _niceShots.childCount;
-        _numOfBoardShots = _boardShots.childCount;
+        InitializeBallPositionAndRotation();
+        InitializeNumberOfShotsPoints();
     }
 
     private void FixedUpdate()
@@ -66,11 +53,12 @@ public class BallThrower : MonoBehaviour
         _throwingTimer += Time.fixedDeltaTime;
         float timePassed = _throwingTimer / _throwingDuration;
 
-        // Calculate position based on interpolation and sinusoidal motion
+        // Calculate position based on interpolation to reach the highest position and then go down
         _basketball.position = Vector3.Lerp(_basketBallThrowPosition, _objectivePosition, timePassed) +
                                 Vector3.up * _height * Mathf.Sin(timePassed * Mathf.PI);
 
-        // Reset after throwing duration
+        // After the throwing duration set, we disable the update of the ball and make its body decelerate
+        // to give a more realistic feeling to the throw if it was a good one
         if (_throwingTimer >= _throwingDuration)
         {
             _ballThrown = false;
@@ -79,17 +67,21 @@ public class BallThrower : MonoBehaviour
         }
     }
 
-    // Trigger the ball throw
+    // Compute the type of throw of the ball, resetting the final point to reach based on the values passed from the slider
     public void ThrowBall(float differenceScore, float differenceBoard)
     {
+        // The height value of the shot is computer based on the difference between the slider and the objective
+        // to add randomness to the shots
         _height = _throwingHeight + 2.0f * differenceScore;
+
+        // Reset the ball state
         _ballController.SetPerfectShot(false);
         _ballController.SetGoodShot(false);
 
         if (Mathf.Abs(differenceScore) < 0.04f)
         {
-            // Perfect shot
-            //Debug.Log("Perfect shot");
+            // PERFECT SHOT
+
             _shotScore = 3;
             _finalDecelerationGoodShots = true;
             _ballController.SetGoodShot(true);
@@ -98,8 +90,8 @@ public class BallThrower : MonoBehaviour
         }
         else if (Mathf.Abs(differenceScore) < 0.1f)
         {
-            // Nice shot
-            //Debug.Log("Nice shot");
+            // NICE SHOT
+
             _shotScore = 2;
             _finalDecelerationGoodShots = true;
             _ballController.SetGoodShot(true);
@@ -107,8 +99,8 @@ public class BallThrower : MonoBehaviour
         }
         else if (Mathf.Abs(differenceBoard) < 0.05f)
         {
-            // Board shot
-            //Debug.Log("Board shot");
+            // BACKBOARD SHOT
+
             _shotScore = 2;
             _finalDecelerationGoodShots = true;
             _ballController.SetGoodShot(true);
@@ -116,40 +108,37 @@ public class BallThrower : MonoBehaviour
         }
         else if (differenceScore > 0)
         {
-            // Bad shot strong
-            //Debug.Log("Bad shot strong");
+            // We distinguish between bad shots done with the slider of the user
+            // passing above the objective slider for strong shots and below for weak shots, to give a different
+            // visual feedback to the experience.
+
+            // BAD SHOT STRONG
             _finalDecelerationGoodShots = false;
             _objectivePosition = _badShotsStrong.GetChild(Random.Range(0, _numOfShotsStrong)).position;
         }
         else
         {
-            // Bad shot weak
-            //Debug.Log("Bad shot weak");
+            // BAD SHOT WEAK
+
             _finalDecelerationGoodShots = false;
             _objectivePosition = _badShotsWeak.GetChild(Random.Range(0, _numOfShotsWeak)).position;
         }
 
         _ballThrown = true;
-        // Trigger camera movement associated with ball throw
-        _cameraController.ThrowBall();
+
         _basketballRigidbody.isKinematic = false;
         _basketballRigidbody.AddTorque(Vector3.right * _rotationForce);
+
+        // After the ball is thrown, we pass the information to the camera to follow it accordingly
+        _cameraController.ThrowBall();
     }
 
     // Reset ball position and pass the score to the PointsController
     public void ResetBall(Vector3 newBallPosition)
     {
-        if (_ballController.GetValidShot())
-        {
-            if (_ballController.GetBoardPoints() != 0)
-                _pointsController.AddPoints(_ballController.GetBoardPoints());
-            else
-                _pointsController.AddPoints(_shotScore);
-        }else{
-            _pointsController.AddPoints(0);
-        }
+        PassPointsToPointsController();
 
-        _ballController.SetValidShot(false); 
+        _ballController.SetValidShot(false);
         _ballController.SetBoardPoints(0);
         _shotScore = 0;
         _throwingTimer = 0f;
@@ -162,5 +151,42 @@ public class BallThrower : MonoBehaviour
         _basketball.rotation = Quaternion.Euler(rotation);
         _basketball.rotation = new Quaternion(0, _basketball.rotation.y, _basketball.rotation.z, _basketball.rotation.w);
         _basketBallThrowPosition = _basketball.position;
+    }
+
+    // Initialize the ball position and rotation
+    void InitializeBallPositionAndRotation()
+    {
+        _basketball.LookAt(_cameraTransform);
+        Vector3 rotation = _basketball.rotation.eulerAngles;
+        rotation.x = 0;
+        _basketball.rotation = Quaternion.Euler(rotation);
+        _basketBallThrowPosition = _basketball.position;
+        _basketballRigidbody = _basketball.GetComponent<Rigidbody>();
+        _ballController = _basketball.GetComponent<BallController>();
+        _objectivePosition = _ringCenter.position;
+    }
+
+    // We pass the points only if the shot is considered to be valid and check if the ball touched the backboard
+    void PassPointsToPointsController()
+    {
+        if (_ballController.GetValidShot())
+        {
+            if (_ballController.GetBoardPoints() != 0)
+                _pointsController.AddPoints(_ballController.GetBoardPoints());
+            else
+                _pointsController.AddPoints(_shotScore);
+        }
+        else
+        {
+            _pointsController.AddPoints(0);
+        }
+    }
+    // We get the number of positions for the different types of shots
+    void InitializeNumberOfShotsPoints()
+    {
+        _numOfShotsWeak = _badShotsWeak.childCount;
+        _numOfShotsStrong = _badShotsStrong.childCount;
+        _numOfNiceShots = _niceShots.childCount;
+        _numOfBoardShots = _boardShots.childCount;
     }
 }

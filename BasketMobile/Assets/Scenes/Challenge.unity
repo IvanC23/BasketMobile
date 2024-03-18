@@ -18840,7 +18840,7 @@ MonoBehaviour:
   _badShotsStrong: {fileID: 1679807784}
   _niceShots: {fileID: 650095722}
   _boardShots: {fileID: 891971321}
-  _pointsController: {fileID: 1912955922}
+  _pointsControllerBot: {fileID: 1912955922}
   _botAnimation: {fileID: 2013714901}
   _jumpAnimation: {fileID: 7400000, guid: 1f3dd3f10e945ac47bf2bf4428775cbb, type: 2}
   _positionsParent: {fileID: 627027642}
