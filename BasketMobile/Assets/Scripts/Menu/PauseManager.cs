@@ -33,4 +33,13 @@ public class PauseManager : MonoBehaviour
     {
         SceneManager.LoadScene("Menu");
     }
+
+    public void Rematch()
+    {
+        SceneManager.LoadScene("Challenge");
+    }
+    public void Restart()
+    {
+        SceneManager.LoadScene("Practice");
+    }
 }

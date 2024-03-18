@@ -2,11 +2,13 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public class StartUpController : MonoBehaviour
+public class StartUpControllerSolo : MonoBehaviour
 {
     [SerializeField] private GameObject _welcomeObject;
     [SerializeField] private TMP_Text _welcomeText;
     [SerializeField] private SliderController _slideController;
+    [SerializeField] private FinishManager _finishManager;
+
 
     private float _initialFontSize = 80f;
     private float _finalFontSize = 150f;
@@ -51,6 +53,10 @@ public class StartUpController : MonoBehaviour
 
         // Hide the welcome message, resume time, and enable the slider controller
         _welcomeObject.SetActive(false);
+
+        if (_finishManager != null)
+            _finishManager.StartGame();
+
         Time.timeScale = 1;
         _slideController.enabled = true;
     }
