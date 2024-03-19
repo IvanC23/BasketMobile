@@ -125,6 +125,7 @@ public class BallThrower : MonoBehaviour
         }
 
         _ballThrown = true;
+        AudioManager.instance.PlayMusicByName("Throw");
 
         _basketballRigidbody.isKinematic = false;
         _basketballRigidbody.AddTorque(Vector3.right * _rotationForce);

@@ -48,6 +48,7 @@ public class PointsController : MonoBehaviour
                 {
                     _fillAmount = 1;
                     _isOnDoublePoints = true;
+                    AudioManager.instance.PlayMusicByName("Burning");
                     _X2Indicator.SetActive(true);
                     _fireEffect.SetActive(true);
                     _fireText.SetActive(true);
@@ -71,6 +72,7 @@ public class PointsController : MonoBehaviour
             {
                 _fillAmount = 0;
                 _isOnDoublePoints = false;
+                AudioManager.instance.StopMusicByName("Burning");
                 _X2Indicator.SetActive(false);
                 _fireEffect.SetActive(false);
                 _fireText.SetActive(false);
@@ -106,6 +108,7 @@ public class PointsController : MonoBehaviour
                 {
                     _fillAmount = 0;
                     _isOnDoublePoints = false;
+                    AudioManager.instance.StopMusicByName("Burning");
                     _X2Indicator.SetActive(false);
                     _fireEffect.SetActive(false);
                     _fireText.SetActive(false);

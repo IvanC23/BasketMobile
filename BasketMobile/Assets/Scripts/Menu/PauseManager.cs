@@ -17,6 +17,7 @@ public class PauseManager : MonoBehaviour
 
     public void Pause()
     {
+        AudioManager.instance.PlayMusicByName("Click");
         Time.timeScale = 0;
         _pauseButton.SetActive(false);
         _sliderController.ResetTouch();
@@ -27,6 +28,7 @@ public class PauseManager : MonoBehaviour
 
     public void Resume()
     {
+        AudioManager.instance.PlayMusicByName("Click");
         Time.timeScale = 1;
         _pauseButton.SetActive(true);
         _sliderController.enabled = true;
@@ -36,15 +38,21 @@ public class PauseManager : MonoBehaviour
 
     public void Return()
     {
+        AudioManager.instance.StopMusicByName("Burning");
+        AudioManager.instance.PlayMusicByName("Click");
         SceneManager.LoadScene("Menu");
     }
 
     public void Rematch()
     {
+        AudioManager.instance.StopMusicByName("Burning");
+        AudioManager.instance.PlayMusicByName("Click");
         SceneManager.LoadScene("Challenge");
     }
     public void Restart()
     {
+        AudioManager.instance.StopMusicByName("Burning");
+        AudioManager.instance.PlayMusicByName("Click");
         SceneManager.LoadScene("Practice");
     }
 }

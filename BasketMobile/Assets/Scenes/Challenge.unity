@@ -1446,6 +1446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _welcomeObject: {fileID: 1845231286}
+  _pauseButton: {fileID: 1147480156}
   _welcomeText: {fileID: 1845231289}
   _slideController: {fileID: 1257307335}
   _victoryManager: {fileID: 1192856548}
@@ -9770,7 +9771,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1147480157
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18845,11 +18846,11 @@ MonoBehaviour:
   _jumpAnimation: {fileID: 7400000, guid: 1f3dd3f10e945ac47bf2bf4428775cbb, type: 2}
   _positionsParent: {fileID: 627027642}
   _weightsForTypeOfThrow:
-  - 0.1
+  - 0.15
+  - 0.25
+  - 0.15
   - 0.25
   - 0.2
-  - 0.2
-  - 0.25
 --- !u!1 &1913109620
 GameObject:
   m_ObjectHideFlags: 0

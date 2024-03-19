@@ -5,6 +5,7 @@ using UnityEngine;
 public class StartUpController : MonoBehaviour
 {
     [SerializeField] private GameObject _welcomeObject;
+    [SerializeField] private GameObject _pauseButton;
     [SerializeField] private TMP_Text _welcomeText;
     [SerializeField] private SliderController _slideController;
     [SerializeField] private VictoryManager _victoryManager;
@@ -32,6 +33,8 @@ public class StartUpController : MonoBehaviour
     {
         Time.timeScale = 0;
 
+        AudioManager.instance.PlayMusicByName("Countdown");
+
         _welcomeText.text = "3";
         _welcomeObject.SetActive(true);
         yield return ScaleFontSizeOverTime(_initialFontSize, _finalFontSize, _fontSizeChangeDuration);
@@ -44,6 +47,7 @@ public class StartUpController : MonoBehaviour
 
         _welcomeText.fontSize = (int)_finalFontSize;
         _welcomeText.text = "GO!";
+        AudioManager.instance.PlayMusicByName("Whistle");
         yield return new WaitForSecondsRealtime(0.5f);
 
         _welcomeObject.SetActive(false);
@@ -52,6 +56,7 @@ public class StartUpController : MonoBehaviour
             _victoryManager.StartGame();
 
         Time.timeScale = 1;
+        _pauseButton.SetActive(true);
         _slideController.enabled = true;
     }
 

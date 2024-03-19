@@ -470,6 +470,91 @@ RectTransform:
   m_AnchoredPosition: {x: -300, y: 0}
   m_SizeDelta: {x: 190, y: 230}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &193462447
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 193462448}
+  - component: {fileID: 193462449}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &193462448
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193462447}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &193462449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193462447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5cc427b97d938842a1e48ada45bc749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sounds:
+  - name: Click
+    clip: {fileID: 8300000, guid: e3aa404b7b5153743abea16c33ea4fcb, type: 3}
+    outputAudioMixerGroup: {fileID: 2166904970355306658, guid: 6a632db0fc7fe344ca24a578c6e1a5e6,
+      type: 2}
+    volume: 1
+    pitch: 1.2
+    loop: 0
+    source: {fileID: 0}
+  - name: Countdown
+    clip: {fileID: 8300000, guid: e9f5052e80de93841bf3b76f68a466da, type: 3}
+    outputAudioMixerGroup: {fileID: 2166904970355306658, guid: 6a632db0fc7fe344ca24a578c6e1a5e6,
+      type: 2}
+    volume: 1
+    pitch: 0.8
+    loop: 0
+    source: {fileID: 0}
+  - name: Throw
+    clip: {fileID: 8300000, guid: 901ffeb0ff874ef4e96787a5888c779c, type: 3}
+    outputAudioMixerGroup: {fileID: 2166904970355306658, guid: 6a632db0fc7fe344ca24a578c6e1a5e6,
+      type: 2}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Burning
+    clip: {fileID: 8300000, guid: 0f3ff77708037b549bf780d2eeb4c14b, type: 3}
+    outputAudioMixerGroup: {fileID: 2166904970355306658, guid: 6a632db0fc7fe344ca24a578c6e1a5e6,
+      type: 2}
+    volume: 1
+    pitch: 2
+    loop: 1
+    source: {fileID: 0}
+  - name: Whistle
+    clip: {fileID: 8300000, guid: 56371c8fc609b5d42959a67bf7d18d07, type: 3}
+    outputAudioMixerGroup: {fileID: 2166904970355306658, guid: 6a632db0fc7fe344ca24a578c6e1a5e6,
+      type: 2}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
 --- !u!1 &214116577
 GameObject:
   m_ObjectHideFlags: 0

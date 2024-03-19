@@ -1228,6 +1228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _welcomeObject: {fileID: 1845231286}
+  _pauseButton: {fileID: 1147480156}
   _welcomeText: {fileID: 1845231289}
   _slideController: {fileID: 1257307335}
   _finishManager: {fileID: 993704200}
@@ -3993,7 +3994,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1147480157
 RectTransform:
   m_ObjectHideFlags: 0

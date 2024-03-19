@@ -167,6 +167,8 @@ public class ThrowLogicBot : MonoBehaviour
 
         yield return new WaitForSeconds(_jumpAnimation.length / 2f);
 
+        AudioManager.instance.PlayMusicByName("Throw");
+
         ThrowBall(GetWeightedRandomIndex(_weightsForTypeOfThrow));
 
     }
