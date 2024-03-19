@@ -13,7 +13,7 @@ public class StartUpControllerSolo : MonoBehaviour
 
     private float _initialFontSize = 80f;
     private float _finalFontSize = 150f;
-    private float _fontSizeChangeDuration = 1.0f;
+    private float _fontSizeChangeDuration = 1f;
 
     // Component with the same usage of StartUpController created for the practice mode.
     private void Awake()
@@ -45,8 +45,7 @@ public class StartUpControllerSolo : MonoBehaviour
 
         _welcomeText.fontSize = (int)_finalFontSize;
         _welcomeText.text = "GO!";
-        AudioManager.instance.PlayMusicByName("Whistle");
-        yield return new WaitForSecondsRealtime(0.5f);
+        yield return new WaitForSecondsRealtime(0.9f);
 
         _welcomeObject.SetActive(false);
 

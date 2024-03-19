@@ -22,6 +22,7 @@ public class BallThrower : MonoBehaviour
     private Vector3 _objectivePosition;
     private float _throwingTimer = 0f;
     private bool _ballThrown = false;
+    private bool _weakShot = false;
     private float _height;
     private bool _finalDecelerationGoodShots = false;
     private int _numOfShotsWeak;
@@ -64,6 +65,12 @@ public class BallThrower : MonoBehaviour
             _ballThrown = false;
             if (_finalDecelerationGoodShots)
                 _basketballRigidbody.velocity *= _finalDeceleration;
+
+            if (_weakShot)
+            {
+                AudioManager.instance.PlayMusicByName("MissShot");
+                _weakShot = false;
+            }
         }
     }
 
@@ -119,7 +126,7 @@ public class BallThrower : MonoBehaviour
         else
         {
             // BAD SHOT WEAK
-
+            _weakShot = true;
             _finalDecelerationGoodShots = false;
             _objectivePosition = _badShotsWeak.GetChild(Random.Range(0, _numOfShotsWeak)).position;
         }

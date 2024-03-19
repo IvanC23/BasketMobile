@@ -104,10 +104,13 @@ public class BoardController : MonoBehaviour
     // Handle collision of the ball with the backboard
     void OnCollisionEnter(Collision collision)
     {
-        if (_normalHighlightActive)
+        if (collision.gameObject.tag == "Ball")
         {
-            if (collision.gameObject.tag == "Ball")
+            AudioManager.instance.PlayMusicByName("Backboard");
+
+            if (_normalHighlightActive)
             {
+
                 /// HitHighlight activation
                 _hitHighlight.SetActive(true);
                 _hitHighlightActive = true;

@@ -44,6 +44,9 @@ public class EndChecker : MonoBehaviour
                 // PERFECT SHOT
                 if (other.gameObject.GetComponent<BallController>().GetPerfectShot())
                 {
+                    AudioManager.instance.PlayMusicByName("Bounce");
+                    AudioManager.instance.PlayMusicByName("PerfectShot");
+
                     if (_pointsController.IsOnDoublePoints())
                         _textPointText.text = "PERFECT SHOT!\n+6";
                     else
@@ -57,6 +60,8 @@ public class EndChecker : MonoBehaviour
                 {
                     if (other.gameObject.GetComponent<BallController>().GetBoardPoints() != 0)
                     {
+                        AudioManager.instance.PlayMusicByName("Bounce");
+                        AudioManager.instance.PlayMusicByName("NiceShot");
                         // BOARD SHOT
                         if (_pointsController.IsOnDoublePoints())
                             _textPointText.text = "BOARD SHOT!\n+" + other.gameObject.GetComponent<BallController>().GetBoardPoints() * 2;
@@ -68,6 +73,8 @@ public class EndChecker : MonoBehaviour
                     }
                     else
                     {
+                        AudioManager.instance.PlayMusicByName("Bounce");
+                        AudioManager.instance.PlayMusicByName("NiceShot");
                         // NICE SHOT
                         if (_pointsController.IsOnDoublePoints())
                             _textPointText.text = "NICE SHOT!\n+4";
@@ -79,6 +86,10 @@ public class EndChecker : MonoBehaviour
                     _goodShotEffect.SetActive(true);
                 }
                 StartCoroutine(DisableTextPointAfterAnimation());
+            }
+            else
+            {
+                AudioManager.instance.PlayMusicByName("Bounce");
             }
 
         }

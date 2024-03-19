@@ -12,13 +12,14 @@ public class PauseManager : MonoBehaviour
     // and to show the pause menu, which allows the player to resume, return to the main menu, or restart the game
 
 
-    // Pausing the game, we also disable the component binded to the slider, to avoid interactions with the screen
-    // activating its animations
+    // Pausing the game, we also disable the component binded to the slider to avoid unwanted interactions with the screen  
+    // and half the volume of the sound effects
 
     public void Pause()
     {
         AudioManager.instance.PlayMusicByName("Click");
         Time.timeScale = 0;
+        AudioManager.instance.LowerVolume();
         _pauseButton.SetActive(false);
         _sliderController.ResetTouch();
         _sliderController.enabled = false;
@@ -30,6 +31,7 @@ public class PauseManager : MonoBehaviour
     {
         AudioManager.instance.PlayMusicByName("Click");
         Time.timeScale = 1;
+        AudioManager.instance.NormalVolume();
         _pauseButton.SetActive(true);
         _sliderController.enabled = true;
         _pausePanel.SetActive(false);
@@ -38,20 +40,18 @@ public class PauseManager : MonoBehaviour
 
     public void Return()
     {
-        AudioManager.instance.StopMusicByName("Burning");
         AudioManager.instance.PlayMusicByName("Click");
+        AudioManager.instance.NormalVolume();
         SceneManager.LoadScene("Menu");
     }
 
     public void Rematch()
     {
-        AudioManager.instance.StopMusicByName("Burning");
         AudioManager.instance.PlayMusicByName("Click");
         SceneManager.LoadScene("Challenge");
     }
     public void Restart()
     {
-        AudioManager.instance.StopMusicByName("Burning");
         AudioManager.instance.PlayMusicByName("Click");
         SceneManager.LoadScene("Practice");
     }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MenuManager : MonoBehaviour
 {
-    // Component needed to call the new scene when interacting with the buttons in the main page
+    // Component needed to load the new scene when interacting with the buttons in the main page
     public void PlayPractice()
     {
         AudioManager.instance.PlayMusicByName("Click");

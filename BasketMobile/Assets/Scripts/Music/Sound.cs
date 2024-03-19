@@ -4,7 +4,8 @@ using UnityEngine;
 [System.Serializable]
 public class Sound
 {
-    // Sound class
+    // Sound class created for convenience in managing the audio clips in the game
+    // The AudioManager class will use a list of Sound, which will be easily modifiable in the Unity Editor
     public string name;
     public AudioClip clip;
     public AudioMixerGroup outputAudioMixerGroup;

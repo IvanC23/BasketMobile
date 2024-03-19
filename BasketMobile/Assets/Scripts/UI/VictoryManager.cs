@@ -4,6 +4,7 @@ using UnityEngine;
 public class VictoryManager : MonoBehaviour
 {
     [SerializeField] private float _gameTime = 60f;
+    [SerializeField] private float _timeToStartTimer = 5f;
     [SerializeField] private TMP_Text _botScoreText;
     [SerializeField] private TMP_Text _botScoreFinishPageText;
     [SerializeField] private TMP_Text _playerScoreText;
@@ -23,6 +24,8 @@ public class VictoryManager : MonoBehaviour
 
     private RewardsManager _rewardsManager;
     private bool _gameOn = false;
+    private bool _timerStarted = false;
+
 
     // This component is similar to the FinishManager, but it's used for the challenge mode.
     // It disables the slider controller and shows the finish panel when the time is over, monitoring the scores obtained by the player and the bot
@@ -47,11 +50,20 @@ public class VictoryManager : MonoBehaviour
                 _gameOn = false;
                 FinishGame();
             }
+            if (_gameTime <= _timeToStartTimer && !_timerStarted)
+            {
+                _timerStarted = true;
+                AudioManager.instance.PlayMusicByName("Timer");
+            }
         }
     }
 
     void FinishGame()
     {
+        AudioManager.instance.StopMusicByName("Burning");
+        AudioManager.instance.StopMusicByName("Timer");
+        AudioManager.instance.PlayMusicByName("Crowd");
+
         Time.timeScale = 0;
         _playerScoreFinishText.text = _playerScoreText.text;
         _botScoreFinishPageText.text = _botScoreText.text;

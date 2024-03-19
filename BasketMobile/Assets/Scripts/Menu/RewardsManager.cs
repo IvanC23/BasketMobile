@@ -31,23 +31,23 @@ public class RewardsManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
+    // Each time we load the Menu scene, we find the rewards connector components to connect this script
+    // to the GameObjects in the main page and populate them
+
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene.name == "Menu" && instance == this)
         {
             _rewardsConnector = FindObjectOfType<RewardsConnector>();
-
-            GameObject rewardsParent = GameObject.Find("Rewards");
-
             if (_rewardsConnector != null)
             {
                 _rewardsSlots = _rewardsConnector.GetRewardsSlots();
                 _rewardsCount = _rewardsSlots.Count;
             }
-            else
-            {
-                Debug.LogError("Rewards connector not found");
-            }
+
+            // _currentlyActiveRewards is a list of bools that represents the state of the rewards in the main page
+            // right now it is filled with false value each time the game is started, but to make this data persistent
+            // we could save this piece of information in a .data file and load it when the game starts
 
             if (_currentlyActiveRewards == null)
             {

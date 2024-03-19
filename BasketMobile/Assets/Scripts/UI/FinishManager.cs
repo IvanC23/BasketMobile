@@ -6,6 +6,7 @@ using UnityEngine;
 public class FinishManager : MonoBehaviour
 {
     [SerializeField] private float _gameTime = 60f;
+    [SerializeField] private float _timeToStartTimer = 5f;
     [SerializeField] private TMP_Text _playerScoreText;
     [SerializeField] private TMP_Text _playerScoreFinishText;
     [SerializeField] private SliderController _sliderController;
@@ -16,8 +17,9 @@ public class FinishManager : MonoBehaviour
 
     private RewardsManager _rewardsManager;
     private bool _gameOn = false;
+    private bool _timerStarted = false;
 
-    // Component created to manage the end of the practice game, when the time is over it disable some of the elements of the game interface,
+    // Component created to manage the end of the practice game, when the time is over it disables some of the elements of the game interface,
     // enabling a finish panel created for the practice mode, and showing the score of the player.
 
     void Start()
@@ -39,11 +41,20 @@ public class FinishManager : MonoBehaviour
                 _gameOn = false;
                 FinishGame();
             }
+            if (_gameTime <= _timeToStartTimer && !_timerStarted)
+            {
+                _timerStarted = true;
+                AudioManager.instance.PlayMusicByName("Timer");
+            }
         }
     }
 
     void FinishGame()
     {
+        AudioManager.instance.StopMusicByName("Burning");
+        AudioManager.instance.StopMusicByName("Timer");
+        AudioManager.instance.PlayMusicByName("Crowd");
+        
         Time.timeScale = 0;
         _playerScoreFinishText.text = _playerScoreText.text;
         _pauseButton.SetActive(false);

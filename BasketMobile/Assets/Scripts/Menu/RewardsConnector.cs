@@ -26,6 +26,7 @@ public class RewardsConnector : MonoBehaviour
 
     public void OnClickReward(int index)
     {
+        AudioManager.instance.PlayMusicByName("Reward");
         _buttonsPanel.SetActive(false);
         _rewardsSlotsPanel.SetActive(false);
         _rewardPopUpPanel.SetActive(true);
@@ -40,6 +41,7 @@ public class RewardsConnector : MonoBehaviour
 
     public void CloseRewardPanel()
     {
+        AudioManager.instance.PlayMusicByName("Click");
         _buttonsPanel.SetActive(true);
         _rewardsSlotsPanel.SetActive(true);
         _rewardPopUpPanel.SetActive(false);

@@ -47,8 +47,7 @@ public class StartUpController : MonoBehaviour
 
         _welcomeText.fontSize = (int)_finalFontSize;
         _welcomeText.text = "GO!";
-        AudioManager.instance.PlayMusicByName("Whistle");
-        yield return new WaitForSecondsRealtime(0.5f);
+        yield return new WaitForSecondsRealtime(0.9f);
 
         _welcomeObject.SetActive(false);
 

@@ -515,22 +515,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sounds:
-  - name: Click
-    clip: {fileID: 8300000, guid: e3aa404b7b5153743abea16c33ea4fcb, type: 3}
-    outputAudioMixerGroup: {fileID: 2166904970355306658, guid: 6a632db0fc7fe344ca24a578c6e1a5e6,
-      type: 2}
-    volume: 1
-    pitch: 1.2
-    loop: 0
-    source: {fileID: 0}
-  - name: Countdown
-    clip: {fileID: 8300000, guid: e9f5052e80de93841bf3b76f68a466da, type: 3}
-    outputAudioMixerGroup: {fileID: 2166904970355306658, guid: 6a632db0fc7fe344ca24a578c6e1a5e6,
-      type: 2}
-    volume: 1
-    pitch: 0.8
-    loop: 0
-    source: {fileID: 0}
   - name: Throw
     clip: {fileID: 8300000, guid: 901ffeb0ff874ef4e96787a5888c779c, type: 3}
     outputAudioMixerGroup: {fileID: 2166904970355306658, guid: 6a632db0fc7fe344ca24a578c6e1a5e6,
@@ -547,8 +531,88 @@ MonoBehaviour:
     pitch: 2
     loop: 1
     source: {fileID: 0}
-  - name: Whistle
-    clip: {fileID: 8300000, guid: 56371c8fc609b5d42959a67bf7d18d07, type: 3}
+  - name: Click
+    clip: {fileID: 8300000, guid: e3aa404b7b5153743abea16c33ea4fcb, type: 3}
+    outputAudioMixerGroup: {fileID: 2166904970355306658, guid: 6a632db0fc7fe344ca24a578c6e1a5e6,
+      type: 2}
+    volume: 1
+    pitch: 1.2
+    loop: 0
+    source: {fileID: 0}
+  - name: Countdown
+    clip: {fileID: 8300000, guid: d19749d1ba9516742bf51dcbce7d6974, type: 3}
+    outputAudioMixerGroup: {fileID: 2166904970355306658, guid: 6a632db0fc7fe344ca24a578c6e1a5e6,
+      type: 2}
+    volume: 1
+    pitch: 0.91
+    loop: 0
+    source: {fileID: 0}
+  - name: NiceShot
+    clip: {fileID: 8300000, guid: dbcdc21a239f42f45962e62d74dcee4d, type: 3}
+    outputAudioMixerGroup: {fileID: 2166904970355306658, guid: 6a632db0fc7fe344ca24a578c6e1a5e6,
+      type: 2}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: PerfectShot
+    clip: {fileID: 8300000, guid: 89945c90fd1a59f4c8fc7060211b27b5, type: 3}
+    outputAudioMixerGroup: {fileID: 2166904970355306658, guid: 6a632db0fc7fe344ca24a578c6e1a5e6,
+      type: 2}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Reward
+    clip: {fileID: 8300000, guid: f3fdbdfc321e2454eb8a43701029d979, type: 3}
+    outputAudioMixerGroup: {fileID: 2166904970355306658, guid: 6a632db0fc7fe344ca24a578c6e1a5e6,
+      type: 2}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Bounce
+    clip: {fileID: 8300000, guid: a4d59a4889883754ab326e2730bd352c, type: 3}
+    outputAudioMixerGroup: {fileID: 2166904970355306658, guid: 6a632db0fc7fe344ca24a578c6e1a5e6,
+      type: 2}
+    volume: 1
+    pitch: 1.63
+    loop: 0
+    source: {fileID: 0}
+  - name: Backboard
+    clip: {fileID: 8300000, guid: 82b48cf3a21933844bdfa1a85d29c244, type: 3}
+    outputAudioMixerGroup: {fileID: 2166904970355306658, guid: 6a632db0fc7fe344ca24a578c6e1a5e6,
+      type: 2}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: MissShot
+    clip: {fileID: 8300000, guid: 80c91854f993026469b7979137c4e6fd, type: 3}
+    outputAudioMixerGroup: {fileID: 2166904970355306658, guid: 6a632db0fc7fe344ca24a578c6e1a5e6,
+      type: 2}
+    volume: 0.2
+    pitch: 1.2
+    loop: 0
+    source: {fileID: 0}
+  - name: Crowd
+    clip: {fileID: 8300000, guid: 764764497cea1f7469565e855d2d840c, type: 3}
+    outputAudioMixerGroup: {fileID: 2166904970355306658, guid: 6a632db0fc7fe344ca24a578c6e1a5e6,
+      type: 2}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Timer
+    clip: {fileID: 8300000, guid: 01633c623d818204789a05cf75509839, type: 3}
+    outputAudioMixerGroup: {fileID: 2166904970355306658, guid: 6a632db0fc7fe344ca24a578c6e1a5e6,
+      type: 2}
+    volume: 0.6
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Ground
+    clip: {fileID: 8300000, guid: 8d326adcb5266184eaaa31a52f7ef493, type: 3}
     outputAudioMixerGroup: {fileID: 2166904970355306658, guid: 6a632db0fc7fe344ca24a578c6e1a5e6,
       type: 2}
     volume: 1
@@ -910,82 +974,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330653243}
   m_CullTransparentMesh: 1
---- !u!1 &375128528
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 375128529}
-  - component: {fileID: 375128531}
-  - component: {fileID: 375128530}
-  m_Layer: 5
-  m_Name: Icon
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &375128529
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 375128528}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 573289236}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 50}
-  m_SizeDelta: {x: 90, y: 90}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &375128530
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 375128528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4f30b6f1dac7c8c439832b020e6385ec, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &375128531
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 375128528}
-  m_CullTransparentMesh: 1
 --- !u!1 &383031122
 GameObject:
   m_ObjectHideFlags: 0
@@ -1326,7 +1314,6 @@ GameObject:
   - component: {fileID: 478300879}
   - component: {fileID: 478300882}
   - component: {fileID: 478300881}
-  - component: {fileID: 478300880}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -1349,20 +1336,6 @@ Transform:
   m_Father: {fileID: 735953296975191618}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &478300880
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 478300878}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &478300881
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1579,7 +1552,6 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 772668408}
-  - {fileID: 375128529}
   m_Father: {fileID: 310017967}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
